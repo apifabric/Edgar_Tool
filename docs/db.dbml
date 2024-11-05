@@ -1,0 +1,116 @@
+// Copy this text, paste to https://dbdiagram.io/d
+// Or, https://databasediagram.com/app
+// Or, view in VSCode with extension: "DBML Live Preview"
+
+Project DBML {
+  Note: '''
+Company: Stores information about companies whose filings are tracked.
+CompanySector: Defines sectors to which companies belong, providing industry categorization.
+CompanySectorLink: Links companies to their respective sectors.
+Filing: Represents a single filing record as returned from the EDGAR API.
+FormType: different form types that can be queried from the EDGAR database.
+FilingDateLog: Stores logs of filing retrieval dates, useful for tracking updates.
+FilingDocument: Represents documents associated with a filing, such as attachments or exhibits.
+FilingItem: This table holds individual items within a filing, often part of detailed disclosures.
+NotificationLog: Keeps track of notifications sent to users, particularly concerning new filings or changes.
+User: Table to store users who interact with the system, potentially querying filings.
+UserBookmark: Allows users to bookmark specific filings for quick access later.
+UserQuery: Logs queries made by users, storing their preferences for easy reuse.
+'''
+}
+
+Table Company {
+    id INTEGER [primary key]
+    name VARCHAR 
+    cik VARCHAR 
+    }
+
+Table CompanySector {
+    id INTEGER [primary key]
+    name VARCHAR 
+    }
+
+Table CompanySectorLink {
+    id INTEGER [primary key]
+    company_id INTEGER 
+    sector_id INTEGER 
+    }
+
+Table Filing {
+    id INTEGER [primary key]
+    accession_number VARCHAR 
+    form_type_id INTEGER 
+    company_id INTEGER 
+    date_filed DATETIME 
+    }
+
+Table FormType {
+    id INTEGER [primary key]
+    form_code VARCHAR 
+    description VARCHAR 
+    }
+
+Table FilingDateLog {
+    id INTEGER [primary key]
+    filing_id INTEGER 
+    retrieval_date DATETIME 
+    }
+
+Table FilingDocument {
+    id INTEGER [primary key]
+    filing_id INTEGER 
+    document_title VARCHAR 
+    document_url VARCHAR 
+    }
+
+Table FilingItem {
+    id INTEGER [primary key]
+    filing_id INTEGER 
+    item_sequence INTEGER 
+    content TEXT 
+    }
+
+Table NotificationLog {
+    id INTEGER [primary key]
+    user_id INTEGER 
+    filing_id INTEGER 
+    notification_date DATETIME 
+    message TEXT 
+    }
+
+Table User {
+    id INTEGER [primary key]
+    username VARCHAR 
+    email VARCHAR 
+    password_hash VARCHAR 
+    }
+
+Table UserBookmark {
+    id INTEGER [primary key]
+    user_id INTEGER 
+    filing_id INTEGER 
+    }
+
+Table UserQuery {
+    id INTEGER [primary key]
+    user_id INTEGER 
+    form_type_id INTEGER 
+    date_created DATETIME 
+    }
+
+
+
+// Relationships
+    Ref: CompanySectorLink.(company_id) < Company.(id)
+    Ref: CompanySectorLink.(sector_id) < CompanySector.(id)
+    Ref: Filing.(company_id) < Company.(id)
+    Ref: Filing.(form_type_id) < FormType.(id)
+    Ref: FilingDateLog.(filing_id) < Filing.(id)
+    Ref: FilingDocument.(filing_id) < Filing.(id)
+    Ref: FilingItem.(filing_id) < Filing.(id)
+    Ref: NotificationLog.(filing_id) < Filing.(id)
+    Ref: NotificationLog.(user_id) < User.(id)
+    Ref: UserBookmark.(filing_id) < Filing.(id)
+    Ref: UserBookmark.(user_id) < User.(id)
+    Ref: UserQuery.(form_type_id) < FormType.(id)
+    Ref: UserQuery.(user_id) < User.(id)

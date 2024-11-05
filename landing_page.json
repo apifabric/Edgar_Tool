@@ -1,0 +1,100 @@
+{
+    "name": "EDGAR Query",
+    "logo": {
+        "Type": "Logo",
+        "name": "EDGAR Logo",
+        "description": "The official logo of the EDGAR Query website."
+    },
+    "sections": [
+        {
+            "title": "Streamline Your SEC Filings Search",
+            "subtitle": "Effortlessly Access EDGAR Filings",
+            "name": "header",
+            "label": "Home",
+            "content": "Welcome to EDGAR Query, your go-to platform for seamless access to filings from the EDGAR website. **Start your search now!** Enter a Form type and get instant results.",
+            "order": 1,
+            "Type": "Hero",
+            "images": [
+                {
+                    "Type": "Hero",
+                    "name": "EDGAR Main Image",
+                    "description": "A compelling image representing digital financial data analytics."
+                }
+            ]
+        },
+        {
+            "title": "About EDGAR Query",
+            "subtitle": "",
+            "name": "about",
+            "label": "About",
+            "content": "EDGAR Query is dedicated to simplifying your access to SEC filings by integrating advanced API technology. Our mission is to provide you with accurate and real-time data, making your search for financial documents efficient and user-friendly.",
+            "order": 2,
+            "Type": "About",
+            "images": [
+                {
+                    "Type": "Background",
+                    "name": "About Background",
+                    "description": "Abstract image symbolizing connectivity and data."
+                }
+            ]
+        },
+        {
+            "title": "Our Services",
+            "subtitle": "",
+            "name": "services",
+            "label": "Services",
+            "content": "- **Real-Time Search**: Instantly access SEC filings as soon as they are available.\n- **Customizable Queries**: Enter specific Form types to filter your search results according to your needs.\n- **Data Visualization**: View results in a comprehensive table format and export as desired.",
+            "order": 3,
+            "Type": "Services",
+            "images": [
+                {
+                    "Type": "Infographic",
+                    "name": "Services Infographic",
+                    "description": "Infographic illustrating the step-by-step process of using the service."
+                }
+            ]
+        },
+        {
+            "title": "How It Works",
+            "subtitle": "Easy Steps to Get Started",
+            "name": "how-it-works",
+            "label": "How It Works",
+            "content": "1. **Input Your Query**: Enter your desired Form type in the input box.\n2. **Submit**: Click submit to initiate the query.\n3. **View Results**: The table of filings is displayed, offering various options to explore the data further.\n4. **Download & Export**: Easily download results for offline use or further analysis.",
+            "order": 4,
+            "Type": "CallToAction",
+            "images": [
+                {
+                    "Type": "Infographic",
+                    "name": "Process Flow",
+                    "description": "Graphic showing the query process from input to result."
+                }
+            ]
+        },
+        {
+            "title": "Contact Us",
+            "subtitle": "We're here to help",
+            "name": "contact",
+            "label": "Contact",
+            "content": "For inquiries or support, please reach out to us:\n- **Email**: support@edgarquery.com\n- **Phone**: +1 (555) 123-4567\n- **Address**: 123 Financial Ave, Suite 100, New York, NY, 10001\n\n**Follow Us** on [Twitter](https://twitter.com/edgarquery) and [LinkedIn](https://linkedin.com/company/edgarquery) for updates.",
+            "order": 5,
+            "Type": "Contact",
+            "images": [
+                {
+                    "Type": "Map",
+                    "name": "Location Map",
+                    "description": "A map showing the location of the main office."
+                }
+            ]
+        },
+        {
+            "title": "Footer",
+            "subtitle": "",
+            "name": "footer",
+            "label": "Footer",
+            "content": "\u00a9 2023 EDGAR Query. All rights reserved. | [Privacy Policy](#) | [Terms of Service](#)",
+            "order": 6,
+            "Type": "Footer",
+            "images": []
+        }
+    ]
+}

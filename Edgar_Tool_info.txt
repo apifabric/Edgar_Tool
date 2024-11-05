@@ -1,0 +1,1 @@
+I'm building a website that'll interconnect with an api to display filings from the edgar website. I'd like to have an input box that will take a Form type and when submitted with query the api and will display a table of results from the json response.

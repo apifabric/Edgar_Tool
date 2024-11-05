@@ -1,0 +1,53 @@
+<o-form-layout-manager attr="Filing" mode="tab" title="FILING">
+    <div fxFill fxLayout="column" fxLayoutAlign="start">
+        <o-table 
+            attr="FilingTable" 
+            service="Filing" 
+            entity="Filing" 
+            title="FILING"
+            keys="id"
+            columns="id;company_id;form_type_id;accession_number;date_filed" 
+            header-actions="R;D"
+            visible-columns="id;company_id;form_type_id;accession_number;date_filed"  
+            sort-columns="id" 
+            query-rows="20" 
+            quick-filter="yes"
+            row-height="medium" 
+            select-all-checkbox="true" 
+            pageable="yes"  
+            auto-adjust="true" 
+            virtual-scroll="yes" 
+            edition-mode="dblclick"
+            horizontal-scroll="yes"
+            show-title="yes"
+            export-button="yes">
+            
+            <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+            
+            <o-table-column attr="company_id" title="company_id">
+    <o-table-cell-renderer-service attr="company_id" 
+        service="Company" entity="CompanyType" columns="id;name"
+        parent-keys="id:company_id"
+        value-column="name" keys="company_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+            
+            <o-table-column attr="form_type_id" title="form_type_id">
+    <o-table-cell-renderer-service attr="form_type_id" 
+        service="FormType" entity="FormTypeType" columns="id;description"
+        parent-keys="id:form_type_id"
+        value-column="description" keys="form_type_id"
+        visible-columns="description" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+            
+            <o-table-column #accession_number attr="accession_number" title="accession_number" editable="no" required="yes" content-align="left"></o-table-column>
+            
+            <o-table-column #date_filed attr="date_filed" title="date_filed" editable="no" required="yes" content-align="left"></o-table-column>
+            
+            <o-table-context-menu></o-table-context-menu>
+            <o-table-paginator page-size-options="24;48;96"></o-table-paginator>
+        </o-table>
+    </div>
+</o-form-layout-manager>

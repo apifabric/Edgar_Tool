@@ -1,0 +1,543 @@
+about:
+  date: November 05, 2024 21:26:21
+  recent_changes: works with modified safrs-react-admin
+  version: 0.0.0
+api_root: '{http_type}://{swagger_host}:{port}/{api}'
+authentication: '{system-default}'
+entities:
+  Company:
+    columns:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: cik
+      required: true
+      template: text
+      type: VARCHAR
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Stores information about companies whose filings are tracked.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: name
+    home_template: home_template.html
+    info_list: Stores information about companies whose filings are tracked.
+    label: Company
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - company_id
+      name: CompanySectorLinkList
+      resource: CompanySectorLink
+    - direction: tomany
+      fks:
+      - company_id
+      name: FilingList
+      resource: Filing
+    type: Company
+  CompanySector:
+    columns:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Defines sectors to which companies belong, providing industry categorization.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: name
+    home_template: home_template.html
+    info_list: Defines sectors to which companies belong, providing industry categorization.
+    label: CompanySector
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - sector_id
+      name: CompanySectorLinkList
+      resource: CompanySectorLink
+    type: CompanySector
+  CompanySectorLink:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: company_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: sector_id
+      required: true
+      template: integer
+      type: INTEGER
+    description: Links companies to their respective sectors.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Links companies to their respective sectors.
+    label: CompanySectorLink
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - company_id
+      name: company
+      resource: Company
+    - direction: toone
+      fks:
+      - sector_id
+      name: sector
+      resource: CompanySector
+    type: CompanySectorLink
+  Filing:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: company_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: form_type_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: accession_number
+      required: true
+      template: text
+      type: VARCHAR
+    - name: date_filed
+      required: true
+      type: DATETIME
+    description: Represents a single filing record as returned from the EDGAR API.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Represents a single filing record as returned from the EDGAR API.
+    label: Filing
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - filing_id
+      name: FilingDateLogList
+      resource: FilingDateLog
+    - direction: tomany
+      fks:
+      - filing_id
+      name: FilingDocumentList
+      resource: FilingDocument
+    - direction: tomany
+      fks:
+      - filing_id
+      name: FilingItemList
+      resource: FilingItem
+    - direction: tomany
+      fks:
+      - filing_id
+      name: NotificationLogList
+      resource: NotificationLog
+    - direction: tomany
+      fks:
+      - filing_id
+      name: UserBookmarkList
+      resource: UserBookmark
+    - direction: toone
+      fks:
+      - company_id
+      name: company
+      resource: Company
+    - direction: toone
+      fks:
+      - form_type_id
+      name: form_type
+      resource: FormType
+    type: Filing
+  FilingDateLog:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: filing_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: retrieval_date
+      required: true
+      type: DATETIME
+    description: Stores logs of filing retrieval dates, useful for tracking updates.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Stores logs of filing retrieval dates, useful for tracking updates.
+    label: FilingDateLog
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - filing_id
+      name: filing
+      resource: Filing
+    type: FilingDateLog
+  FilingDocument:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: filing_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: document_title
+      required: true
+      template: text
+      type: VARCHAR
+    - name: document_url
+      required: true
+      template: text
+      type: VARCHAR
+    description: Represents documents associated with a filing, such as attachments
+      or exhibits.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Represents documents associated with a filing, such as attachments
+      or exhibits.
+    label: FilingDocument
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - filing_id
+      name: filing
+      resource: Filing
+    type: FilingDocument
+  FilingItem:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: filing_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: item_sequence
+      required: true
+      template: integer
+      type: INTEGER
+    - name: content
+      template: text
+      type: TEXT
+    description: This table holds individual items within a filing, often part of
+      detailed disclosures.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: This table holds individual items within a filing, often part of detailed
+      disclosures.
+    label: FilingItem
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - filing_id
+      name: filing
+      resource: Filing
+    type: FilingItem
+  FormType:
+    columns:
+    - label: ' description*'
+      name: description
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: form_code
+      required: true
+      template: text
+      type: VARCHAR
+    - name: id
+      template: integer
+      type: INTEGER
+    description: This page shows different form types that can be queried from the
+      EDGAR database.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: description
+    home_template: home_template.html
+    info_list: This page shows different form types that can be queried from the EDGAR
+      database.
+    label: FormType
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - form_type_id
+      name: FilingList
+      resource: Filing
+    - direction: tomany
+      fks:
+      - form_type_id
+      name: UserQueryList
+      resource: UserQuery
+    type: FormType
+  NotificationLog:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: filing_id
+      template: integer
+      type: INTEGER
+    - name: user_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: notification_date
+      required: true
+      type: DATETIME
+    - name: message
+      template: text
+      type: TEXT
+    description: Keeps track of notifications sent to users, particularly concerning
+      new filings or changes.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Keeps track of notifications sent to users, particularly concerning
+      new filings or changes.
+    label: NotificationLog
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - filing_id
+      name: filing
+      resource: Filing
+    - direction: toone
+      fks:
+      - user_id
+      name: user
+      resource: User
+    type: NotificationLog
+  User:
+    columns:
+    - label: ' username*'
+      name: username
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: email
+      required: true
+      template: text
+      type: VARCHAR
+    - name: password_hash
+      required: true
+      template: text
+      type: VARCHAR
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Table to store users who interact with the system, potentially querying
+      filings.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: username
+    home_template: home_template.html
+    info_list: Table to store users who interact with the system, potentially querying
+      filings.
+    label: User
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - user_id
+      name: NotificationLogList
+      resource: NotificationLog
+    - direction: tomany
+      fks:
+      - user_id
+      name: UserBookmarkList
+      resource: UserBookmark
+    - direction: tomany
+      fks:
+      - user_id
+      name: UserQueryList
+      resource: UserQuery
+    type: User
+  UserBookmark:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: filing_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: user_id
+      required: true
+      template: integer
+      type: INTEGER
+    description: Allows users to bookmark specific filings for quick access later.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Allows users to bookmark specific filings for quick access later.
+    label: UserBookmark
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - filing_id
+      name: filing
+      resource: Filing
+    - direction: toone
+      fks:
+      - user_id
+      name: user
+      resource: User
+    type: UserBookmark
+  UserQuery:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: form_type_id
+      template: integer
+      type: INTEGER
+    - name: user_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: date_created
+      required: true
+      type: DATETIME
+    description: Logs queries made by users, storing their preferences for easy reuse.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Logs queries made by users, storing their preferences for easy reuse.
+    label: UserQuery
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - form_type_id
+      name: form_type
+      resource: FormType
+    - direction: toone
+      fks:
+      - user_id
+      name: user
+      resource: User
+    type: UserQuery
+settings:
+  HomeJS: /admin-app/home.js
+  max_list_columns: 8
+  style_guide:
+    applicationLocales:
+    - en
+    - es
+    currency_symbol: $
+    currency_symbol_position: left
+    date_format: LL
+    decimal_max: '1000000000'
+    decimal_min: '0'
+    decimal_separator: .
+    edit_on_mode: dblclick
+    exclude_listpicker: false
+    include_translation: false
+    keycloak_client_id: alsclient
+    keycloak_realm: kcals
+    keycloak_url: http://localhost:8080
+    locale: en
+    max_decimal_digits: '4'
+    min_decimal_digits: '2'
+    mode: tab
+    pick_style: list
+    serviceType: OntimizeEE
+    startSessionPath: /auth/login
+    style: light
+    thousand_separator: ','
+    use_keycloak: false

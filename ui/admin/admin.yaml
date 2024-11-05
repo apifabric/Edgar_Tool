@@ -1,0 +1,375 @@
+about:
+  date: November 05, 2024 21:26:21
+  recent_changes: works with modified safrs-react-admin
+  version: 0.0.0
+api_root: '{http_type}://{swagger_host}:{port}/{api}'
+authentication: '{system-default}'
+info:
+  number_relationships: 13
+  number_tables: 12
+info_toggle_checked: true
+resources:
+  Company:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: cik
+      required: true
+    - name: id
+    description: Stores information about companies whose filings are tracked.
+    info_list: Stores information about companies whose filings are tracked.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - company_id
+      name: CompanySectorLinkList
+      resource: CompanySectorLink
+    - direction: tomany
+      fks:
+      - company_id
+      name: FilingList
+      resource: Filing
+    type: Company
+    user_key: name
+  CompanySector:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: id
+    description: Defines sectors to which companies belong, providing industry categorization.
+    info_list: Defines sectors to which companies belong, providing industry categorization.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - sector_id
+      name: CompanySectorLinkList
+      resource: CompanySectorLink
+    type: CompanySector
+    user_key: name
+  CompanySectorLink:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: company_id
+      required: true
+    - name: sector_id
+      required: true
+    description: Links companies to their respective sectors.
+    info_list: Links companies to their respective sectors.
+    tab_groups:
+    - direction: toone
+      fks:
+      - company_id
+      name: company
+      resource: Company
+    - direction: toone
+      fks:
+      - sector_id
+      name: sector
+      resource: CompanySector
+    type: CompanySectorLink
+    user_key: id
+  Filing:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: company_id
+      required: true
+    - name: form_type_id
+      required: true
+    - name: accession_number
+      required: true
+    - name: date_filed
+      required: true
+      type: DATETIME
+    description: Represents a single filing record as returned from the EDGAR API.
+    info_list: Represents a single filing record as returned from the EDGAR API.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - filing_id
+      name: FilingDateLogList
+      resource: FilingDateLog
+    - direction: tomany
+      fks:
+      - filing_id
+      name: FilingDocumentList
+      resource: FilingDocument
+    - direction: tomany
+      fks:
+      - filing_id
+      name: FilingItemList
+      resource: FilingItem
+    - direction: tomany
+      fks:
+      - filing_id
+      name: NotificationLogList
+      resource: NotificationLog
+    - direction: tomany
+      fks:
+      - filing_id
+      name: UserBookmarkList
+      resource: UserBookmark
+    - direction: toone
+      fks:
+      - company_id
+      name: company
+      resource: Company
+    - direction: toone
+      fks:
+      - form_type_id
+      name: form_type
+      resource: FormType
+    type: Filing
+    user_key: id
+  FilingDateLog:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: filing_id
+      required: true
+    - name: retrieval_date
+      required: true
+      type: DATETIME
+    description: Stores logs of filing retrieval dates, useful for tracking updates.
+    info_list: Stores logs of filing retrieval dates, useful for tracking updates.
+    tab_groups:
+    - direction: toone
+      fks:
+      - filing_id
+      name: filing
+      resource: Filing
+    type: FilingDateLog
+    user_key: id
+  FilingDocument:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: filing_id
+      required: true
+    - name: document_title
+      required: true
+    - name: document_url
+      required: true
+    description: Represents documents associated with a filing, such as attachments
+      or exhibits.
+    info_list: Represents documents associated with a filing, such as attachments
+      or exhibits.
+    tab_groups:
+    - direction: toone
+      fks:
+      - filing_id
+      name: filing
+      resource: Filing
+    type: FilingDocument
+    user_key: id
+  FilingItem:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: filing_id
+      required: true
+    - name: item_sequence
+      required: true
+    - name: content
+    description: This table holds individual items within a filing, often part of
+      detailed disclosures.
+    info_list: This table holds individual items within a filing, often part of detailed
+      disclosures.
+    tab_groups:
+    - direction: toone
+      fks:
+      - filing_id
+      name: filing
+      resource: Filing
+    type: FilingItem
+    user_key: id
+  FormType:
+    attributes:
+    - label: ' description*'
+      name: description
+      search: true
+      sort: true
+    - name: form_code
+      required: true
+    - name: id
+    description: This page shows different form types that can be queried from the
+      EDGAR database.
+    info_list: This page shows different form types that can be queried from the EDGAR
+      database.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - form_type_id
+      name: FilingList
+      resource: Filing
+    - direction: tomany
+      fks:
+      - form_type_id
+      name: UserQueryList
+      resource: UserQuery
+    type: FormType
+    user_key: description
+  NotificationLog:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: filing_id
+    - name: user_id
+      required: true
+    - name: notification_date
+      required: true
+      type: DATETIME
+    - name: message
+    description: Keeps track of notifications sent to users, particularly concerning
+      new filings or changes.
+    info_list: Keeps track of notifications sent to users, particularly concerning
+      new filings or changes.
+    tab_groups:
+    - direction: toone
+      fks:
+      - filing_id
+      name: filing
+      resource: Filing
+    - direction: toone
+      fks:
+      - user_id
+      name: user
+      resource: User
+    type: NotificationLog
+    user_key: id
+  User:
+    attributes:
+    - label: ' username*'
+      name: username
+      required: true
+      search: true
+      sort: true
+    - name: email
+      required: true
+    - name: password_hash
+      required: true
+    - name: id
+    description: Table to store users who interact with the system, potentially querying
+      filings.
+    info_list: Table to store users who interact with the system, potentially querying
+      filings.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - user_id
+      name: NotificationLogList
+      resource: NotificationLog
+    - direction: tomany
+      fks:
+      - user_id
+      name: UserBookmarkList
+      resource: UserBookmark
+    - direction: tomany
+      fks:
+      - user_id
+      name: UserQueryList
+      resource: UserQuery
+    type: User
+    user_key: username
+  UserBookmark:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: filing_id
+      required: true
+    - name: user_id
+      required: true
+    description: Allows users to bookmark specific filings for quick access later.
+    info_list: Allows users to bookmark specific filings for quick access later.
+    tab_groups:
+    - direction: toone
+      fks:
+      - filing_id
+      name: filing
+      resource: Filing
+    - direction: toone
+      fks:
+      - user_id
+      name: user
+      resource: User
+    type: UserBookmark
+    user_key: id
+  UserQuery:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: form_type_id
+    - name: user_id
+      required: true
+    - name: date_created
+      required: true
+      type: DATETIME
+    description: Logs queries made by users, storing their preferences for easy reuse.
+    info_list: Logs queries made by users, storing their preferences for easy reuse.
+    tab_groups:
+    - direction: toone
+      fks:
+      - form_type_id
+      name: form_type
+      resource: FormType
+    - direction: toone
+      fks:
+      - user_id
+      name: user
+      resource: User
+    type: UserQuery
+    user_key: id
+settings:
+  HomeJS: /admin-app/home.js
+  max_list_columns: 8
+  style_guide:
+    applicationLocales:
+    - en
+    - es
+    currency_symbol: $
+    currency_symbol_position: left
+    date_format: LL
+    decimal_max: '1000000000'
+    decimal_min: '0'
+    decimal_separator: .
+    detail_mode: tab
+    edit_on_mode: dblclick
+    exclude_listpicker: false
+    include_translation: 'false'
+    keycloak_client_id: alsclient
+    keycloak_realm: kcals
+    keycloak_url: http://localhost:8080
+    locale: en
+    max_decimal_digits: '4'
+    min_decimal_digits: '2'
+    new_mode: dialog
+    pick_style: list
+    row_height: small,
+    serviceType: OntimizeEE
+    startSessionPath: /auth/login
+    style: light
+    thousand_separator: ','
+    use_keycloak: 'false'
